@@ -1,23 +1,22 @@
 import React, { Component } from 'react';
 import Home from './Home';
+import api from "../../helpers/api";
 
 class HomeContainer extends Component {
   state = {
     categories: [],
+      isLoading: true, // Loading avant de recevoir l'api
   }
-  componentDidMount() {
-    fetch('http://jservice.io/api/categories?count=100').then(response => {
-      response.json().then(categories => {
+    async componentDidMount() {
+      const categories = await api.getCategories();
         this.setState({
           categories: categories,
-        })
-        console.log(categories);
+            isLoading: false,
       });
-    })
-  }
+    }
   render() {
     return (
-      <Home categories={this.state.categories} />
+      <Home categories={this.state.categories} isCategoriesLoading={this.state.isLoading} /> // On passe des params au html
     );
   }
 }

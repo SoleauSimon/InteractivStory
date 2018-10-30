@@ -2,10 +2,13 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-const Home = ({ categories }) => (
+const Home = ({ categories, isCategoriesLoading }) => (
   <section>
     <h1>Homepage</h1>
-    {categories.length > 0 && (
+      {isCategoriesLoading && (
+          <div>Loader</div>
+      )}
+    {!isCategoriesLoading && (
       <section>
         {categories.map(category => (
           <Link to={`/categories/${category.id}`} key={category.id}>
@@ -25,6 +28,7 @@ Home.propTypes = {
       clues_count: PropTypes.number
     }),
   ),
+    isCategoriesLoading: PropTypes.bool.isRequired,
 }
 
 export default Home;
